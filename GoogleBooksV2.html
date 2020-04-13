@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Books Tinder</title>
+</head>
+
+<body class="vh-100 d-flex">
+
+    <div id="login" class="container m-auto text-center">
+        <h1 style="color:rgb(13, 3, 107);" class="font-weight-ligther font-italic" ;>Books Tinder</h1>
+        <p class="invisible">Spacer</p>
+        <img src="images/books_login.jpeg"
+            class="mw-100" width="100%" height="350px">
+            <p></p>
+        <div class="form-group mb-3">
+            <label for="username">Enter Username</label>
+            <input type="text" class="form-control" id="username" onkeypress="inputEnter(event, 'login')"
+                placeholder="Username">
+                <button class="btn btn-info mt-5" onclick="getUserByUsername()">Login / Register</button>
+        </div>
+    </div>
+
+    <div id="main" class="container d-none">
+        <section id="header">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="#">Books Tinder</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#settingsToggler"
+                    aria-controls="settingsToggler" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="settingsToggler">
+                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                        <li class="nav-item">
+                            <span id="currentUsername" class="navbar-text"></span>
+                        </li>
+                    </ul>
+                    <div class="form-inline my-2 my-lg-0">
+                        <button class="btn btn-outline-danger my-2 my-sm-0" onclick="logout()">Logout</button>
+                    </div>
+                </div>
+            </nav>
+        </section>
+
+        <!------------------------------------------ SEARCH--------------------------------------------------------------->
+
+        <div class="accordion" id="accordionExample">
+            <div class="bg-light">
+                <div class="card-header" id="headingOne">
+                    <h2 class="mb-0">
+
+                        <button onclick="showSearch()"
+                            class="btn font-weight-bold text-dark btn-outline-info text-center" type="button"
+                            data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                            aria-controls="collapseOne">
+                            Search
+                        </button>
+
+                        <button class="btn font-weight-bold text-dark btn-outline-info text-center" type="button"
+                            onclick="showProfile()" data-toggle="collapse" data-target="#collapseOne">
+                            Profile
+                        </button>
+
+                        <button onclick="donateTab()"
+                            class="btn font-weight-bold bg-warning text-dark btn-outline-warning text-right"
+                            type="button" data-toggle="collapse" data-target="#collapseOne" style="float: right;"
+                            aria-controls="collapseOne">
+                            Donate
+                        </button>
+                    </h2>
+                </div>
+
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <div class="container-fluid">
+                            <div class="row col-12">
+                                <strong class="text-center mx-auto">Search For Books</strong>
+                                <input id="searchField" class="form-control" type="text" placeholder="Search Books"
+                                    aria-label="Search">
+                            </div>
+                            <div class="row col-12">
+                                <button id="searchButton" onclick="getDataFromAPI()" type="button"
+                                    class="btn btn-secondary btn-block mt-2">Search</button>
+                                <!-- O mt-3 dá um espaço -->
+                                <button id="searchButtonEmpty" onclick="getRandomDataFromAPI()" type="button"
+                                    class="btn btn-info btn-block mt-2">I Feel Lucky</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!------------------------------------------SHOW BOOKS--------------------------------------------------------------->
+
+        <div class="text-center h-40 d-flex">
+            <div class="mx-auto">
+                <div class="row">
+                    <p class="invisible">Spacer</p>
+                </div>
+                <div class="row">
+                    <div class="col">
+
+                        <div id="searchWindow" class="row text-center">
+                            <div class="col-12">
+                                <div class="row text-center">
+                                    <div class="col-12">
+                                        <img width="120px" height="300px" id="thumbnail" src="/images/example_book.jpeg"
+                                            class="img-thumbnail text-center" alt="...">
+                                    </div>
+                                </div>
+                                <div class="row justify-content-md-center">
+                                    <div class="row text-center">
+                                        <div class="col-12">
+                                            <strong>Title :</strong>
+                                        </div>
+                                        <div class="col-12">
+                                            <p id="bookTitle"></p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row text-center">
+                                    <div class="col">
+                                        <strong>Description</strong>
+                                        <p class="invisible">Spacer</p>
+                                        <p id="bookDescription"></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 text-center">
+                                        <button type="button" class="btn btn-success"
+                                            onclick="likeButton()">Like<i class="far fa-thumbs-up"></i></button>
+                                        <p class="invisible">Spacer</p>
+                                        <a id="previewButton" onclick="previewButton()" href="#">Preview</a>
+                                    </div>
+                                    <div class="col-6 text-center">
+                                        <button type="button" class="btn btn-danger"
+                                            onclick="dislikeButton()">Dislike</button>
+                                        <p class="invisible">Spacer</p>
+                                        <a id="infoButton" onclick="infoButton()" href="#">Info</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!------------------------------------------PROFILE / TABLE WINDOW----------------------------------------------->
+
+                        <div id="tableWindow" class="row text-center">
+                            <div class="col">
+                                <div class="row h-40">
+                                    <div class="col-4 text-center">
+
+                                        <button type="button"
+                                            class="btn font-weight-bold btn-outline-info btn-block text-dark"
+                                            style="height:40px;width:200px" onclick="getBooksByUser('true')">Show All
+                                        </button>
+
+                                    </div>
+                                    <div class="col-4 text-center">
+
+                                        <button type="button" data-toggle="modal" data-target="#matchUser"
+                                            class="btn font-weight-bold btn-outline-info btn-block text-dark"
+                                            onclick="findMatch()" style="height:40px;width:200px">Find
+                                            Match
+                                        </button>
+
+                                    </div>
+
+                                    <div class="col-4 text-center">
+
+                                        <button data-toggle="modal" data-target="#deleteBooks" type="button"
+                                            class="btn font-weight-bold btn-outline-danger btn-block"
+                                            style="height:40px;width:200px">Erase All
+                                        </button>
+
+                                    </div>
+                                </div>
+                                <p class="invisible">Spacer</p>
+                                <table id="resultTable" class="table">
+                                    <thead id="resultHead">
+                                        <tr>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="resultBody">
+                                    </tbody>
+                                </table>
+                                <div class="row col-12">
+                                    <div class="col-12">
+                                        <p class="invisible">Spacer</p>
+                                        <p class="invisible">Spacer</p>
+                                        <p class="invisible">Spacer</p>
+                                        <p class="invisible">Spacer</p>
+                                        <div id="matchesById">
+                                            <p class="invisible">Spacer</p>
+                                        </div>
+                                        <p class="invisible">Spacer</p>
+                                        <p class="invisible">Spacer</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!----------------------- Donate ---------------------->
+
+                        <div id="donateDiv" class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="text-center">
+                                        <p><strong>Support Our Website</strong></p>
+                                        <p class="invisible"></p>
+                                        <p><strong>Donate Below :</strong></p>
+                                        <div id="donateButton" class="col-12">
+                                        </div>
+                                        <p class="invisible">Spacer</p>
+                                        <p><strong>Thank You !!!</strong></p>
+                                        <p style="font-size:100px">&#128512;</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modals -->
+
+    <!-- Erase Modal -->
+
+    <div class="modal fade" id="deleteBooks" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"> Oh No ... Really ?
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete all your favorite Books?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button onclick="eraseBooks()" type="button" class="btn btn-danger" data-dismiss="modal">Delete
+                        All Books</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Match Modal -->
+    <div class="modal fade" id="matchUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="matchStatus"> Looking For Matches
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="showMatch" class="modal-body">
+                    <p class="text-center">Wait a Sec . . .</p>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="deleteMatch()" type="button" class="btn btn-secondary"
+                        data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js "
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin=" anonymous "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js "
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1 "
+        crossorigin="anonymous "></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js "
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM "
+        crossorigin="anonymous "></script>
+
+    <script src="Classes.js"></script>
+    <script src="GoogleBooksV3.js"></script>
+
+    <!-- Este script foi um template de logins dados pelo Manuel -->
+    <script>
+
+        currentUser = {};
+
+        function setCurrentUser(user) {
+            currentUser = user;
+            stateView();
+        }
+
+        function inputEnter(event, input) {
+            const char = event.code;
+            const key = event.key;
+            if (char === 'Enter' || key === 'Enter') {
+                if (input === "login") {
+                    getUserByUsername();
+                } else if (input === "booksearch") {
+                    getBooksFromGoogle();
+                }
+            }
+        }
+
+        function stateView() {
+            if (currentUser.id != undefined) {
+                $("#login ").addClass("d-none ");
+                $("#main ").removeClass("d-none ");
+                updateHeader();
+            } else {
+                $("#login ").removeClass("d-none ");
+                $("#main ").addClass("d-none ");
+            }
+        }
+
+        function updateHeader() {
+            $("#currentUsername").html(`Welcome ${currentUser.username}`);
+        }
+
+        function getUserByUsername() {
+            let username = $("#username ").val();
+
+            // Ao fazer login este get já retorna os books do user
+
+            $.get('https://upacademytinder.herokuapp.com/api/users/?filter={"where":{"username":"' + username + '"},"include":"books"}')
+                .done((data) => {
+                    (data.length == 0) ? addUser(username) : setCurrentUser(data[0]);
+                }).fail((err) => {
+                    console.error("Erro : ", err);
+                });
+        }
+
+        function addUser(username) {
+            let tempUser = {
+                username: username
+            }
+            $.post('https://upacademytinder.herokuapp.com/api/users',
+                tempUser).done((data) => {
+                    setCurrentUser(data);
+                }).fail((err) => {
+                    console.error("Erro : ", err);
+                });
+        }
+
+        function deleteUserById() {
+            $.ajax({
+                url: 'https://upacademytinder.herokuapp.com/api/users/' +
+                    currentUser.id,
+                type: 'DELETE',
+                success: () => {
+                    console.log("Deleted ");
+                    setCurrentUser();
+                }
+            });
+        }
+
+        function updateUserById() {
+            currentUser.username = $("#currentUsername ").val();
+            $.ajax({
+                url: 'https://upacademytinder.herokuapp.com/api/users/' + currentUser.id,
+                type: 'PUT',
+                data: currentUser,
+                success: (user) => {
+                    console.log("Updated ");
+                    setCurrentUser(user);
+                }
+            });
+        }
+
+        function addBook() {
+            let tempBook = {
+                name: $("#bookName ").val()
+            }
+            $.post('https://upacademytinder.herokuapp.com/api/users/' + currentUser.id + '/books',
+                tempBook).done((data) => {
+                    console.log(data);
+                }).fail((err) => {
+                    console.error("Erro : ", err);
+                });
+        }
+
+        function getBooksFromGoogle() {
+            console.log("getBooksFromGoogle function", $("#h-search").val());
+        }
+
+        function logout() {
+            currentUser = {};
+            stateView();
+        }
+    </script>
+</body>
+
+</html>
