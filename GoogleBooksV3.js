@@ -3,7 +3,7 @@ let dataFrame = [];
 let auxData = new Book();
 let bookUrl = "https://www.googleapis.com/books/v1/volumes?q=";
 let databaseUrl = "https://upacademytinder.herokuapp.com/api/";
-let api_key = "AIzaSyDYa9L3MZeWkM4fs44LjQ0qpaDx3p6jOoU";
+let api_key = "// Hidden //";
 let likedArray = [];
 let dislikedArray = [];
 let buttonCounter = 0;
